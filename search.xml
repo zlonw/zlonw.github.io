@@ -18,4 +18,180 @@
 <p>More info: <a class="link"   href="https://hexo.io/docs/one-command-deployment.html" >Deployment <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>win10安装weblogic</title>
+    <url>/zlonw.github.io/2023/09/25/win10%E5%AE%89%E8%A3%85weblogic/</url>
+    <content><![CDATA[<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>本次安装版本：weblogic10.3.6</p>
+<p>第一次安装，因jdk版本不支持1.8以上报错，后来换成了1.6好使了。安装包下载：<a class="button  regular" href='https://www.oracle.com/middleware/technologies/fusionmiddleware-downloads.html' title='示例博客'>示例博客</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li><p>点击安装包，进入欢迎使用页面，直接点下一步</p>
+</li>
+<li><p>选择中间件的主目录，创建空文件夹就行，这里创建了bea目录，选好目录点下一步</p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25476014195aa5941acb54.png"
+                     
+                ></p>
+</li>
+<li><p>注册安全更新页面，可以不选，直接下一步</p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25477714195aa5941ad52d.png"
+                     
+                ></p>
+</li>
+<li><p>提示连接失败，选择不接收配置中通知</p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25478214195aa5941ad97e.png"
+                     
+                ></p>
+</li>
+<li><p>选择安装类型为典型</p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25479014195aa5941adfcd.png"
+                     
+                ></p>
+</li>
+<li><p>选择jdk安装目录，注意要使用1.8以下的版本，下一步</p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25479f14195aa5941ae5cd.png"
+                     
+                ></p>
+</li>
+<li><p>选择产品安装目录，默认在中间件目录下，下一步</p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f2547ab14195aa5941ae9f7.png"
+                     
+                ></p>
+</li>
+<li><p>安装概要，下一步开始安装</p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f2547b614195aa5941aee63.png"
+                     
+                ></p>
+</li>
+<li><p>安装完成，默认会选中运行Quickstart进入配置页。</p>
+<p> <img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f2547c214195aa5941af309.png"
+                     
+                ></p>
+</li>
+</ol>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ol>
+<li><p>选择配置类型 ，创建新的域</p>
+<p>Getting started with weblogic server 创建新的域</p>
+<p>Upgtade domains to version 升级现有版本到10.3.6</p>
+<p>access documentation online 文档</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f2547cd14195aa5941af70c.png"
+                     
+                ></p>
+</li>
+<li><p>选择创建新的weblogic域</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f2547d814195aa5941afaf7.png"
+                     
+                ></p>
+</li>
+<li><p>直接下一步</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f2547e014195aa5941afd90.png"
+                     
+                ></p>
+</li>
+<li><p>指定域名和位置</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f2547ea14195aa5941b0069.png"
+                     
+                ></p>
+</li>
+<li><p>配置管理员用户名和密码</p>
+<p>用户名：weblogic</p>
+<p>密码： 1234qwer</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f2547f414195aa5941b030d.png"
+                     
+                ></p>
+</li>
+<li><p>配置服务器启动模式和jdk，开发模式自动面密码，生产模式启动时需要填写用户名和密码，这里选择生产模式，后面再创建一个开发模式</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25480014195aa5941b0689.png"
+                     
+                ></p>
+</li>
+<li><p>选择”管理服务器”、”受管服务器、集群机器”</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25480a14195aa5941b09cd.png"
+                     
+                ></p>
+</li>
+<li><p>名称默认即可，选择本地监听地址，指定端口号</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25481314195aa5941b0ca8.png"
+                     
+                ></p>
+</li>
+<li><p>单机不配置受管服务器，直接下一步</p>
+</li>
+<li><p>单机不配置集群，直接下一步</p>
+</li>
+<li><p>不配置计算机，直接下一步</p>
+</li>
+<li><p>点创建</p>
+</li>
+<li><p>启动服务，在\bea\user_projects\domains\weblogic1036下启动startWeblogic.cmd,输入用户名和密码，启动，看到RUNNING<br>mode启动成功。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25481314195aa5941b0ca8.png"
+                     
+                ></p>
+</li>
+<li><p>浏览器访问<a href="http://IP:PORT/console访问weblogic控制台，输入用户名与密码点击登录">http://IP:PORT/console访问weblogic控制台，输入用户名与密码点击登录</a></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5f25482714195aa5941b13d7.png"
+                     
+                ></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Server</category>
+      </categories>
+      <tags>
+        <tag>weblogic weblogic安装</tag>
+      </tags>
+  </entry>
 </search>
