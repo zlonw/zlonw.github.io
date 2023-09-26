@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="zlong.w">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://zlonx.cn/2023/09/26/mysql8-0-21-keepalived双机热备/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="环境准备虚拟机安装CentOS7，并且在官网下载MySQL8.0.21压缩文件，给两台服务器都安装MySQL配置双机主主同步，将两台MySQL都当成master,无论哪一个处理数据，另一个都会同步使用keepalived实现MySQL双主热备，无论谁宕机另一台服务可以马上顶上去。  keepalived原理总结keepalived基于VRRP协议的软件实现，原生设计目的为了高可用 ipvs服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL8.0.21+keepalived双机热备">
+<meta property="og:url" content="https://zlonx.cn/2023/09/26/MySQL8-0-21-keepalived%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87/index.html">
+<meta property="og:site_name" content="ZLONG">
+<meta property="og:description" content="环境准备虚拟机安装CentOS7，并且在官网下载MySQL8.0.21压缩文件，给两台服务器都安装MySQL配置双机主主同步，将两台MySQL都当成master,无论哪一个处理数据，另一个都会同步使用keepalived实现MySQL双主热备，无论谁宕机另一台服务可以马上顶上去。  keepalived原理总结keepalived基于VRRP协议的软件实现，原生设计目的为了高可用 ipvs服务">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-26T07:12:01.000Z">
+<meta property="article:modified_time" content="2023-09-26T07:42:48.643Z">
+<meta property="article:author" content="zlong">
+<meta property="article:tag" content="MySql">
+<meta property="article:tag" content="keepalived">
+<meta property="article:tag" content="双机热备">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/zlonw.github.io/images/zlonx.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/zlonw.github.io/images/zlonx.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/zlonw.github.io/images/zlonx.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            MySQL8.0.21+keepalived双机热备 -
+        
+        ZLONG
+    </title>
+    
+<link rel="stylesheet" href="/zlonw.github.io/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/zlonw.github.io/css/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+        <link href="" rel="stylesheet">
+    
+    
+        <link href="" rel="stylesheet">
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"zlonx.cn","root":"/zlonw.github.io/","language":"zh-CN","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":true,"family":null,"url":null},"english":{"enable":true,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Zlonx Blog","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn/?c=i&c=e"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"zhihu":"https://www.zhihu.com/people/thepri","email":"13120082675@163.com","weixin":"zlong_8386","github":"https://github.com/zlonw/zlonw.github.io"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.4.4","navbar":{"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"album":{"icon":"fa-solid fa-image","path":"/masonry/"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Blog":"https://zlonx.cn","Friends":"/links/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"},"masonry":{"path":"/masonry","icon":"fa-regular fa-image"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/9/25 13:59:14"};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    Global.data_config = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="https://zlonx.cn/">
+                
+                ZLONG
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首页
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        归档
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/masonry/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-image"></i>
+                                        
+                                        相册
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/zlonw.github.io/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a href="https://zlonx.cn">BLOG
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a href="/zlonw.github.io/links/">友情链接
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首页
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                归档
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/masonry/"  >
+                             
+                                
+                                    <i class="fa-solid fa-image"></i>
+                                
+                                相册
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="group-hover:rotate-180 transition-transform fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/zlonw.github.io/about">ME</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="https://zlonx.cn">BLOG</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/zlonw.github.io/links/">友情链接</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">MySQL8.0.21+keepalived双机热备</h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/zlonw.github.io/images/tx.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">zlong.w</span>
+                        
+                            <span class="author-label">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-09-26 15:12:01</span>
+        <span class="mobile">2023-09-26 15:12:01</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-09-26 15:42:48</span>
+            <span class="mobile">2023-09-26 15:42:48</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/zlonw.github.io/categories/MySql/">MySql</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/zlonw.github.io/categories/MySql/keepalived/">keepalived</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/zlonw.github.io/categories/MySql/keepalived/%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87/">双机热备</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/zlonw.github.io/tags/MySql/">MySql</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/zlonw.github.io/tags/keepalived/">keepalived</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/zlonw.github.io/tags/%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87/">双机热备</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <ol>
+<li><p>环境准备<br>虚拟机安装CentOS7，并且在官网下载MySQL8.0.21压缩文件，给两台服务器都安装MySQL<br>配置双机主主同步，将两台MySQL都当成master,无论哪一个处理数据，另一个都会同步<br>使用keepalived实现MySQL双主热备，无论谁宕机另一台服务可以马上顶上去。</p>
+</li>
+<li><p>keepalived原理总结<br>keepalived基于VRRP协议的软件实现，原生设计目的为了高可用 ipvs服务 ipvs，IP虚拟服务器（IP Virtual Server，简写为IPVS）。是运行在LVS下的提供负载均衡功能的一种技术。</p>
+<p>keepalived的功能：</p>
+<ol>
+<li>基于vrrp协议完成地址流动</li>
+<li>为vip地址所在的节点生成ipvs规则(在配置文件中预先定义)</li>
+<li>为ipvs集群的各RS（后端的Real Server）做健康状态检测</li>
+<li>基于脚本调用接口完成脚本中定义的功能，进而影响集群事务，以此支持nginx、haproxy等服务</li>
+<li>Keepalived高可用对之间是通过VRRP进行通信的，VRRP是通过竞选机制来确定主备节点的，主节点的优先级高于备节点，因此，工作时主节点会优先获得所有的资源，备节点处于等待状态，当主节点出现故障时，备节点就会接管主节点的资源，然后顶替主节点对外提供服务。</li>
+<li>在Keepalived服务对之间，只有作为主节点的服务器会一直发送 VRRP广播包，告诉备节点它还活着，此时备节点不会抢占主节点资源，当主节点不可用时，即备节点监听不到主节点发送的广播包时，备节点就会启动相关服务接管主节点的资源，保证业务的连续性。接管速度最快可以小于1秒。</li>
+</ol>
+</li>
+<li><p>将MySQL上传至虚拟机中</p>
+</li>
+<li><p>创建基础文件加和用户组、用户</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">mkdir</span> -p /mysql/&#123;data,bin-log,slow-log,error-log,app,pid,socket,tmp&#125; <span class="comment">#创建文件夹</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">groupadd mysql <span class="comment">#创建用户组</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">useradd -r -g mysql mysql  <span class="comment">#创建用户，设置用户组为MySQL</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">chown</span> -R mysql:mysql /mysql <span class="comment">#将文件夹赋权给MySQL用户</span></span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>解压MySQL压缩包,改名为app,移动至指定文件夹</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">tar -xvf mysql-8.0.21-linux-glibc2.12-x86_64.tar.xz <span class="comment">#解压</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">mv</span> mysql-8.0.21-linux-glibc2.12-x86_64 mysql <span class="comment">#剪切改名</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">mv</span> mysql /mysql/app <span class="comment">#将文件夹剪切到设定好的目录下</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">cd</span> /mysql/app/mysql &amp;&amp; <span class="built_in">chown</span> -R mysql:mysql ./ <span class="comment">#进入mysql下并授权所有文件</span></span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>创建my.cnf配置文件，并加入以下内容</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">服务端口号，默认3306</span></span><br><span class="line">port=3306 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#mysql的主机和客户机在同一host上的时候，使用unix domain socket做为通讯协议的载体</span></span></span><br><span class="line">socket=/mysql/socket/mysql.sock</span><br><span class="line">[mysqld]</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#MySQL服务的唯一编号,每个MySQL服务ID需要唯一</span></span></span><br><span class="line">server-id=1 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#服务端口号，默认3306</span></span></span><br><span class="line">port=3306 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#查询模式,添加该行可支持分组查询时查询多列 (select c1,c2,c3,count(1) total from tables group by c1)</span></span></span><br><span class="line">sql_mode=&#x27;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION&#x27;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#mysql安装根目录</span></span></span><br><span class="line">basedir=/mysql/app/mysql </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#mysql的主机和客户机在同一host上的时候，使用unix domain socket做为通讯协议的载体</span></span></span><br><span class="line">socket=/mysql/socket/mysql.sock</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#MySQL数据文件所在位置</span></span></span><br><span class="line">datadir=/mysql/data </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#记录的是当前MySQL进程的 pid</span></span></span><br><span class="line">pid-file=/mysql/pid/mysql.pid </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#设置临时目录</span></span></span><br><span class="line">tmpdir=/mysql/tmp</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#用户</span></span></span><br><span class="line">user=mysql </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#允许访问的IP网段</span></span></span><br><span class="line">bind-address=0.0.0.0 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#skip-grant-tables 跳过密码登录</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#skip-external-locking 主要用于MyISAM存储引擎,如果多台服务器连接一个数据库则建议注释下面内容</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#skip_name_resolve = 1 只能用IP地址检查客户端的登录，不用主机名</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#transaction_isolation = READ-COMMITTED 事务隔离级别，默认为可重复读，mysql默认可重复读级别（此级别下可能参数很多间隙锁，影响性能）</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#数据库默认字符集,主流字符集支持一些特殊表情符号（特殊表情符占用4个字节）</span></span></span><br><span class="line">character-set-server = utf8mb4 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#数据库字符集对应一些排序等规则，注意要和character-set-server对应</span></span></span><br><span class="line">collation-server = utf8mb4_general_ci </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#设置client连接mysql时的字符集,防止乱码</span></span></span><br><span class="line">init_connect=&#x27;SET NAMES utf8mb4&#x27; </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#是否对sql语句大小写敏感，1表示不敏感</span></span></span><br><span class="line">lower_case_table_names = 1 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#最大连接数</span></span></span><br><span class="line">max_connections = 400  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#最大错误连接数</span></span></span><br><span class="line">max_connect_errors = 1000 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#TIMESTAMP如果没有显示声明NOT NULL，允许NULL值</span></span></span><br><span class="line">explicit_defaults_for_timestamp = true </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#SQL数据包发送的大小，如果有BLOB对象建议修改成1G</span></span></span><br><span class="line">max_allowed_packet = 1G  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#MySQL连接闲置超过一定时间后(单位：秒)将会被强行关闭</span></span></span><br><span class="line">interactive_timeout = 1800 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#MySQL默认的wait_timeout  值为8个小时, interactive_timeout参数需要同时配置才能生效</span></span></span><br><span class="line">wait_timeout = 1800 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#内部内存临时表的最大值 ，设置成128M。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#比如大数据量的group by ,order by时可能用到临时表，</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#超过了这个值将写入磁盘，系统IO压力增大</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">tmp_table_size = 134217728</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">max_heap_table_size = 134217728</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment">##禁用mysql的缓存查询结果集功能</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#后期根据业务情况测试决定是否开启</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#大部分情况下关闭下面两项</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">query_cache_size = 0</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">query_cache_type = 0</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment">##数据库错误日志文件</span></span></span><br><span class="line">log_error = /mysql/error_log/mysql_error.log</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#慢查询sql日志设置</span></span></span><br><span class="line">slow_query_log = 1</span><br><span class="line">slow_query_log_file = /mysql/slow_log/mysql_slow_query.log</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#检查未使用到索引的sql</span></span></span><br><span class="line">log_queries_not_using_indexes = 1</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#针对log_queries_not_using_indexes开启后，记录慢sql的频次、每分钟记录的条数</span></span></span><br><span class="line">log_throttle_queries_not_using_indexes = 5</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#作为从库时生效,从库复制中如何有慢sql也将被记录</span></span></span><br><span class="line">log_slow_slave_statements = 1</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#慢查询执行的秒数，必须达到此值可被记录</span></span></span><br><span class="line">long_query_time = 8</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#检索的行数必须达到此值才可被记为慢查询</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">min_examined_row_limit = 100</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#开启 binlog ( 二进制 ) 日志，主要用来做增量备份跟主从同步</span></span></span><br><span class="line">log-bin=mysql-bin</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">忽略写入binlog日志的数据库</span></span><br><span class="line">binlog-ignore-db=mysql,information_schema</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">字段变化增量值</span></span><br><span class="line">auto-increment-increment=2</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">初始子段ID为1</span></span><br><span class="line">auto-increment-offset=1</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">忽略复制错误</span></span><br><span class="line">slave-skip-errors=all</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">binlog日志位置</span></span><br><span class="line">log_bin=/mysql/data/bin-log</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#Mysql binlog 的日志格式，Statement、ROW 跟 Mixed（ 混合模式 ）</span></span></span><br><span class="line">binlog_format = mixed</span><br><span class="line">skip_ssl</span><br><span class="line">default-authentication-plugin=mysql_native_password</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## 二进制日志缓冲大小，此参数是为每 Session 单独分配的，当一个线程开始一个事务时，Mysql 就会为此 Session 分配一个 binlog cache，当这个事务提交时，binlog cache 中的数据被写入 binlog 文件</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## 通过 show status like &#x27;binlog_cache%&#x27;; 来查看使用 binlog cache 的次数及使用磁盘的次数</span></span></span><br><span class="line">binlog_cache_size = 2M</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## 这个参数对 Mysql 系统来说很重要，不仅影响到 binlog 对 Mysql 所带来的性能损耗，还影响到 Mysql 中数据的完整性。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## 值为 0 时代表事务提交后，Mysql 不做 fsync 之类的磁盘同步指令刷新 binlog_cache 中的信息到磁盘，而让 Filesystem 自行决定什么时候同步，或者 cache 满了之后才同步磁盘。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## 值为 n 时代表进行 n 次事务提交后，Mysql 将进行一次 fsync 之类的磁盘同步指令来将 binlog_cache 中的数据强制写入磁盘。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## 系统默认将此参数设置为 0 ，即不做任何强制性的磁盘刷新指令，性能最好，但是风险也最大。当系统崩溃时 binlog_cache 中的所有 binlog 信息都会丢失。</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">## 而设置为 1 时，是最安全但是性能损耗最大。当系统崩溃时，最多丢失 binlog_cache 中未完成的一个事务，对实际数据没有实质性的影响。</span></span></span><br><span class="line">sync_binlog = 0</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 保留 30 天的 binlog 日志，系统重启、执行 flush logs 或 binlog 日志文件大小达到上限时删除 binlog 日志</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">expire_logs_days = 30</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#开启事件功能定时任务等</span></span></span><br><span class="line">event_scheduler=ON </span><br><span class="line">default-time_zone=&#x27;+8:00&#x27;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#innodb存储引擎默认缓冲池大小(推荐服务器内存的一半)</span></span></span><br><span class="line">innodb_buffer_pool_size=2G </span><br><span class="line">innodb_buffer_pool_instances=4</span><br><span class="line">read_buffer_size=32M</span><br><span class="line">read_rnd_buffer_size=32M</span><br><span class="line">join_buffer_size=32M</span><br><span class="line">sort_buffer_size=64M</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#读的IO线程数</span></span></span><br><span class="line">innodb_read_io_threads=16 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment">#写的IO线程数</span></span></span><br><span class="line">innodb_write_io_threads=16 </span><br><span class="line">table_open_cache=4000</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></li>
+<li><p>将启动文件放入自启动目录</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">cp</span> /mysql/app/mysql/support-files/mysql.server /etc/init.d/mysqld</span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>初始化MySQL</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">bin/mysqld --initialize --user=mysql --console</span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>去启动日志中找初始密码</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">cat</span> /mysql/error_log/mysql_error.log</span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>启动MySQL并登录测试</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl daemon-reload   <span class="comment">#需要先刷新daemon，不然会提示找不到MySQL服务</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl status mysqld   <span class="comment">#查看服务状态</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl start mysqld    <span class="comment">#启动服务</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl restart mysqld  <span class="comment">#重启服务</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl stop mysqld     <span class="comment">#停止服务</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">/mysql/app/mysql/bin/mysql -uroot -p密码   <span class="comment">#登录</span></span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>修改root密码并设置客户端访问MySQL服务的权限</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;optms90582&#x27;</span>;  <span class="comment">-- 修改密码</span></span><br><span class="line">use mysql; <span class="comment">-- 切换数据库</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span>; <span class="comment">-- 查看用户列表</span></span><br><span class="line"><span class="comment">-- 设置访问权限为所有客户端主机均可访问,即更新root用户的host字段为&#x27;%&#x27;</span></span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> host<span class="operator">=</span><span class="string">&#x27;%&#x27;</span> <span class="keyword">where</span> <span class="keyword">user</span><span class="operator">=</span><span class="string">&#x27;root&#x27;</span>; </span><br><span class="line">exit  <span class="comment">--退出客户端 </span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl restart mysqld  <span class="comment">#重启MySQL服务</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl stop firewalld  <span class="comment">#关闭防火墙</span></span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>出现问题，登录时报错：Packages providing this file are:’mariadb’’mysql’</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">ln</span> -s /mysql/app/mysql/bin/mysql /usr/bin <span class="comment">#将当前版本的MySQL软连接配置到/usr/bin下</span></span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>出现问题，mysql -uroot -p报错：error while loading shared libraries: libtinfo.so.5: cannot open shared object file: No such file or directory</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">find / -name <span class="string">&#x27;libtinfo*&#x27;</span> <span class="comment">#全局查询该文件</span></span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">ln</span> -s /usr/lib64/libtinfo.so.6.2 /usr/lib64/libtinfo.so.5 <span class="comment">#配置软连接，给6.2一个别名5</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div></li>
+<li><p>编辑mysql.cnf，最终的my.cnf见上文,修改完成后重启服务，注意两台服务的server-id必须是唯一的</p>
+</li>
+<li><p>查看Master的binlog日志和pos值的位置</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">-- 查看master</span></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> master status;</span><br><span class="line">    <span class="comment">-- 例：显示结果： File=mysql-bin.000002  Position=120</span></span><br><span class="line"><span class="comment">-- 查看Slave</span></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> master status;</span><br><span class="line">    <span class="comment">--例： File=mysql-bin.000006 Position=689</span></span><br></pre></td></tr></table></figure></div>
+<p>16.两个服务增加同步用户</p>
+</li>
+</ol>
+<p>master: 192.168.206.135</p>
+<p>slave: 192.168.206.136</p>
+<p>配置同步用户时需要注意对方的bin-log和Position的数值，必须呼应上</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- master(192.168.206.135)执行：</span></span><br><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> <span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;192.168.206.136&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;optms90582&#x27;</span>;</span><br><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> <span class="keyword">grant</span> replication slave <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;192.168.206.136&#x27;</span>;</span><br><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> change master <span class="keyword">to</span> master_host<span class="operator">=</span><span class="string">&#x27;192.168.206.136&#x27;</span>,</span><br><span class="line">    master_user<span class="operator">=</span><span class="string">&#x27;root&#x27;</span>,master_password<span class="operator">=</span><span class="string">&#x27;optms90582&#x27;</span>,</span><br><span class="line">    master_log_file<span class="operator">=</span><span class="string">&#x27;bin-log.000001&#x27;</span>,master_log_pos<span class="operator">=</span><span class="number">156</span>;</span><br><span class="line"><span class="comment">--slave(192.168.206.136)执行：</span></span><br><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> <span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;192.168.206.135&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;optms90582&#x27;</span>;</span><br><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> <span class="keyword">grant</span> replication slave <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;192.168.206.135&#x27;</span>;</span><br><span class="line"><span class="keyword">sql</span><span class="operator">&gt;</span> change master <span class="keyword">to</span> master_host<span class="operator">=</span><span class="string">&#x27;192.168.206.135&#x27;</span>,</span><br><span class="line">    master_user<span class="operator">=</span><span class="string">&#x27;root&#x27;</span>,master_password<span class="operator">=</span><span class="string">&#x27;optms90582&#x27;</span>,</span><br><span class="line">    master_log_file<span class="operator">=</span><span class="string">&#x27;mysql-bin.000008&#x27;</span>,master_log_pos<span class="operator">=</span><span class="number">156</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<p>17.主主同步配置完成，查看Slave_IO和Slave_SQL状态，都时YES的时候说明主主同步成功，可以创建数据库表进行测试</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> slave status \G;</span><br></pre></td></tr></table></figure></div>
+<p>如果Slave_IO和Slave_SQL有一个不是YES的时候可能防火墙没关、两个服务IP不对应、Por值匹配不到、bin-log不一致，需要具体看看<br>18.两台服务器都需要安装keepalived，从网上下载keeplived-2.2.0源码压缩包，进行编译安装<br>19.解压压缩包，并将安装包放到创建好的目录下</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">tar -zxvf keepalived-2.2.0.tar.gz</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">mv</span> keepalived-2.2.0 keepalived</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">mv</span> keepalived /mysql</span></span><br></pre></td></tr></table></figure></div>
+<p>20.进入主目录进行检查编译安装</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">cd</span> keepalived</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">./configure --prefix=/mysql/keepalived</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">make &amp; make install</span></span><br></pre></td></tr></table></figure></div>
+<p>21.修改配置</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动脚本变量引用文件</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">cp</span> /mysql/keepalived/etc/sysconfig/keepalived /etc/sysconfig/keepalived</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将keepalived 主程序加入到环境变量下</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">cp</span> /mysql/keepalived/sbin/keepalived /usr/sbin/keepalived</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将启动脚本放到init.d目录下 Linux9的init.d目录在/etc/rc.d/init.d</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">cp</span> /mysql/keepalived/keepalived/etc/init.d/keepalived /etc/init.d/keepalived</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将配置文件放到默认路径下</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">mkdir</span> /etc/keepalived</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">cp</span> /mysql/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf</span></span><br></pre></td></tr></table></figure></div>
+<p>22.启动</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">service keepalived start</span></span><br></pre></td></tr></table></figure></div>
+<p>23.查看日志</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">tail</span> -f /var/log/message</span></span><br></pre></td></tr></table></figure></div>
+<p>24.检查时报错：OpenSSL is not properly installed on your system!!!,解决后重新执行检查</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">yum -y install openssl openssl-devel</span></span><br></pre></td></tr></table></figure></div>
+<p>25.检查时报错：WARNING-this build will not support IPv6 please install libnl&#x2F;libnl-3 dev libraries to support UPV6 with IPVS.解决后重新执行检查</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">yum -y install libnl libnl-devel</span></span><br></pre></td></tr></table></figure></div>
+<p>26.在&#x2F;etc&#x2F;keepalived文件夹下新增shutdown.sh脚本，用于MySQL挂掉以后将当前keepalived服务停止(两个服务器都需要创建)</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">killall keepalived</span><br></pre></td></tr></table></figure></div>
+<p>27.修改&#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf 根据实际情况修改配置文件生成虚拟IP(两个服务都需要修改)<br>master: 192.168.206.135</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">vim /etc/keepalived/keepalived.conf</span></span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     acassen@firewall.loc</span><br><span class="line">     failover@firewall.loc</span><br><span class="line">     sysadmin@firewall.loc</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">   smtp_server 192.168.200.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id LVS_MASTER</span><br><span class="line">   vrrp_skip_check_adv_addr</span><br><span class="line">   vrrp_strict</span><br><span class="line">   vrrp_garp_interval 0</span><br><span class="line">   vrrp_gna_interval 0</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    #interface为刚才查到的本机网卡名称</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">       #该ip为虚拟出来的vip地址</span><br><span class="line">       192.168.206.130</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">配置virtual_server  ip为上面配置的虚拟vip地址  端口为mysql的端口</span></span><br><span class="line">virtual_server 192.168.206.130 3306 &#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind NAT</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line">    #real_server 该配置为实际物理机ip地址 以及实际物理机mysql端口</span><br><span class="line">    real_server 192.168.206.135 3306 &#123;</span><br><span class="line">        #当该ip 端口连接异常时，执行该脚本</span><br><span class="line">        notify_down /etc/keepalived/shutdow.sh</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            #实际物理机ip地址</span><br><span class="line">            connect_ip 192.168.206.135</span><br><span class="line">            connect_timeuot 3</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>slave: 192.168.206.136</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">vim /etc/keepalived/keepalived.conf</span></span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     acassen@firewall.loc</span><br><span class="line">     failover@firewall.loc</span><br><span class="line">     sysadmin@firewall.loc</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">   smtp_server 192.168.200.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id LVS_MASTER</span><br><span class="line">   vrrp_skip_check_adv_addr</span><br><span class="line">   vrrp_strict</span><br><span class="line">   vrrp_garp_interval 0</span><br><span class="line">   vrrp_gna_interval 0</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    #interface为刚才查到的本机网卡名称</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">       #该ip为虚拟出来的vip地址</span><br><span class="line">       192.168.206.130</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">配置virtual_server  ip为上面配置的虚拟vip地址  端口为mysql的端口</span></span><br><span class="line">virtual_server 192.168.206.130 3306 &#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind NAT</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line">    #real_server 该配置为实际物理机ip地址 以及实际物理机mysql端口</span><br><span class="line">    real_server 192.168.206.136 3306 &#123;</span><br><span class="line">        #当该ip 端口连接异常时，执行该脚本</span><br><span class="line">        notify_down /etc/keepalived/shutdow.sh</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            #实际物理机ip地址</span><br><span class="line">            connect_ip 192.168.206.136</span><br><span class="line">            connect_timeuot 3</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>28.将keepalived加入开机自启，并启动</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl <span class="built_in">enable</span> keepalived</span></span><br><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">systemctl start keepalived</span></span><br></pre></td></tr></table></figure></div>
+<p>29.使用MySQL客户端连接数据库，IP使用虚拟IP</p>
+<p>30.创建函数报错</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash"><span class="built_in">set</span> global log_bin_trust_function_creators=TRUE;</span></span><br></pre></td></tr></table></figure></div>
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> MySQL8.0.21+keepalived双机热备</li>
+        <li><strong>作者:</strong> zlong.w</li>
+        <li><strong>创建于
+                :</strong> 2023-09-26 15:12:01</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2023-09-26 15:42:48
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://zlonx.cn/2023/09/26/MySQL8-0-21-keepalived双机热备/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+            本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 进行许可。
+            
+
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/MySql/">#MySql</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/keepalived/">#keepalived</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87/">#双机热备</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/zlonw.github.io/2023/09/26/tomcat-nginx/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">tomcat+nginx简单配置</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/zlonw.github.io/2023/09/26/MySql%E5%AE%89%E8%A3%85/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">MySql安装</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此页目录</div>
+        <div class="page-title">MySQL8.0.21+keepalived双机热备</div>
+        
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">zlong.w</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex justify-center items-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/zlonw.github.io/js/libs/Swup.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+        ],
+        containers: ["#swup"],
+    });
+
+    swup.hooks.on("page:view", () => {
+        Global.refresh();
+    });
+
+    // if (document.readyState === "complete") {
+    //
+    // } else {
+    //     document.addEventListener("DOMContentLoaded", () => init());
+    // }
+</script>
+
+
+
+
+
+
+<script src="/zlonw.github.io/js/utils.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/main.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/runtime.js"></script>
+
+    
+<script src="/zlonw.github.io/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/zlonw.github.io/js/libs/Typed.min.js"></script>
+
+  
+<script src="/zlonw.github.io/js/plugins/typed.js"></script>
+
+
+
+
+
+
+    
+<script src="/zlonw.github.io/js/libs/minimasonry.min.js"></script>
+
+    
+<script src="/zlonw.github.io/js/plugins/masonry.js" type="module"></script>
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/zlonw.github.io/js/libs/anime.min.js"></script>
+
+        
+<script src="/zlonw.github.io/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/toc.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>

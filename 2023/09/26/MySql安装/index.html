@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="zlong.w">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://zlonx.cn/2023/09/26/mysql安装/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="官网下载 navicat下载 下载 访问官网翻到最下面，在DOWNLOADS里点击MySQL CommunityServer(社区版本)   选择下载页面，选择windows系统、根据电脑位数选择（32位&#x2F;64位），点击Download   不用登录，直接下载    安装 下载完成后将压缩包解压到一个新的文件夹下。 mysql安装分为两种，一种是msi格式的，一种是zip格式，这里使用z">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySql安装">
+<meta property="og:url" content="https://zlonx.cn/2023/09/26/MySql%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="ZLONG">
+<meta property="og:description" content="官网下载 navicat下载 下载 访问官网翻到最下面，在DOWNLOADS里点击MySQL CommunityServer(社区版本)   选择下载页面，选择windows系统、根据电脑位数选择（32位&#x2F;64位），点击Download   不用登录，直接下载    安装 下载完成后将压缩包解压到一个新的文件夹下。 mysql安装分为两种，一种是msi格式的，一种是zip格式，这里使用z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.downk.cc/item/5fc0b41d15e77190845f1820.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5fc0b43a15e77190845f2b21.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5fc0b47c15e77190845f4108.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5fc0b4a015e77190845f4db5.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5fc0b4bb15e77190845f59cd.png">
+<meta property="article:published_time" content="2023-09-26T06:44:06.000Z">
+<meta property="article:modified_time" content="2023-09-26T07:16:54.767Z">
+<meta property="article:author" content="zlong">
+<meta property="article:tag" content="MySql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5fc0b41d15e77190845f1820.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/zlonw.github.io/images/zlonx.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/zlonw.github.io/images/zlonx.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/zlonw.github.io/images/zlonx.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            MySql安装 -
+        
+        ZLONG
+    </title>
+    
+<link rel="stylesheet" href="/zlonw.github.io/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/zlonw.github.io/css/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+        <link href="" rel="stylesheet">
+    
+    
+        <link href="" rel="stylesheet">
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"zlonx.cn","root":"/zlonw.github.io/","language":"zh-CN","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":true,"family":null,"url":null},"english":{"enable":true,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Zlonx Blog","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn/?c=i&c=e"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"zhihu":"https://www.zhihu.com/people/thepri","email":"13120082675@163.com","weixin":"zlong_8386","github":"https://github.com/zlonw/zlonw.github.io"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.4.4","navbar":{"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"album":{"icon":"fa-solid fa-image","path":"/masonry/"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Blog":"https://zlonx.cn","Friends":"/links/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"},"masonry":{"path":"/masonry","icon":"fa-regular fa-image"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/9/25 13:59:14"};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    Global.data_config = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="https://zlonx.cn/">
+                
+                ZLONG
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首页
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        归档
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/masonry/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-image"></i>
+                                        
+                                        相册
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/zlonw.github.io/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a href="https://zlonx.cn">BLOG
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a href="/zlonw.github.io/links/">友情链接
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首页
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                归档
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/masonry/"  >
+                             
+                                
+                                    <i class="fa-solid fa-image"></i>
+                                
+                                相册
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="group-hover:rotate-180 transition-transform fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/zlonw.github.io/about">ME</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="https://zlonx.cn">BLOG</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/zlonw.github.io/links/">友情链接</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">MySql安装</h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/zlonw.github.io/images/tx.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">zlong.w</span>
+                        
+                            <span class="author-label">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-09-26 14:44:06</span>
+        <span class="mobile">2023-09-26 14:44:06</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-09-26 15:16:54</span>
+            <span class="mobile">2023-09-26 15:16:54</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/zlonw.github.io/categories/MySql/">MySql</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/zlonw.github.io/tags/MySql/">MySql</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <a class="button  regular" target="_blank" rel="noopener" href='https://www.mysql.com/' title='官网下载'>官网下载</a>
+<a class="button  regular" target="_blank" rel="noopener" href='https://cpv2.mairuan.com/formysql.com/trial/navicat_premium_trial_64.exe' title='navicat下载'>navicat下载</a>
+<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><ol>
+<li><p>访问官网翻到最下面，在DOWNLOADS里点击MySQL Community<br>Server(社区版本)</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5fc0b41d15e77190845f1820.png"
+                      alt="image-20201127111330924"
+                ></p>
+</li>
+<li><p>选择下载页面，选择windows系统、根据电脑位数选择（32位&#x2F;64位），点击Download</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5fc0b43a15e77190845f2b21.png"
+                      alt="image-20201127111807790"
+                ></p>
+</li>
+<li><p>不用登录，直接下载</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5fc0b47c15e77190845f4108.png"
+                      alt="image-20201127111931703"
+                ></p>
+</li>
+</ol>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ol start="4">
+<li><p>下载完成后将压缩包解压到一个新的文件夹下。</p>
+<p>mysql安装分为两种，一种是msi格式的，一种是zip格式，这里使用zip格式，解压后会得到一个文件夹。解压后进行一下配置就可以使用了</p>
+</li>
+<li><p>配置环境变量，解压后的文件夹下会有一个bin目录，将这个目录配置到环境变量里</p>
+<p>右键我的电脑–&gt;属性–&gt;高级–&gt;环境变量</p>
+<p>在系统变量下找到Path选中编辑，完成后点击确定。（注意：不要更改或者删除原有配置，win7系统编辑时在字符串最后要加英文的分号）</p>
+<p>win7:</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5fc0b4a015e77190845f4db5.png"
+                      alt="image-20201127113710367"
+                ></p>
+<p>win10:</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic.downk.cc/item/5fc0b4bb15e77190845f59cd.png"
+                      alt="image-20201127113449195"
+                ></p>
+</li>
+<li><p>因为在最新版本中的zip中没有my.ini文件，需要自己新建一个my.ini文件,以下内容根据自己的安装路径。</p>
+</li>
+</ol>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]                      </span><br><span class="line">port  = 3306                  </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置mysql的安装目录</span>         </span><br><span class="line">basedir=D:\\Application\\MySQL\\mysql-8.0.22-winx64 </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置mysql数据库的数据的存放目录，必须是data，或者是\\xxx-data</span>  </span><br><span class="line">datadir=D:\\Application\\MySQL\\mysql-8.0.22-winx64\\data </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">innodb_log_arch_dir 默认datadir</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">innodb_log_group_home_dir  默认datadir</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置mysql服务器的字符集，默认编码</span> </span><br><span class="line">loose-character-set-server=utf8 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">连接数的操作系统监听队列数量，如果经常出现“拒绝连接”错误可适当增加此值</span>  </span><br><span class="line">back_log = 50                 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">不使用接听TCP/IP端口方法，mysqld通过命名管道连接</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">skip-networking</span>              </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">最大连接数量</span>                </span><br><span class="line">max_connections = 100         </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">打开表的线程数量限定，最大4096，除非用mysqld_safe打开限制</span> </span><br><span class="line">table_open_cache = 2048       </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">MySql 服务接收针对每个进程最大查询包大小</span>  </span><br><span class="line">max_allowed_packet = 16M      </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">作用于SQL查询单笔处理使用的内存 缓存，如果一笔操作的二进制数据超过了限定大小，将会在磁盘上开辟空间处理，一般设为 1-2M即可，默认1M</span> </span><br><span class="line">binlog_cache_size = 2M        </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">单个内存表的最大值限定</span>       </span><br><span class="line">max_heap_table_size = 64M     </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">为每个线程分配的排序缓冲大小</span> </span><br><span class="line">sort_buffer_size = 8M         </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="built_in">join</span> 连表操作的缓冲大小,根据实际业务来设置，默认8M</span> </span><br><span class="line">join_buffer_size = 32M        </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">操作多少个离开连接的线程的缓存</span> </span><br><span class="line">thread_cache_size = 8         </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置加全文检索中的最小单词长度。</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">ft_min_word_len = 4</span>          </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">CREATE TABLE 语句的默认表类型，如果 不自己指定类型，则使用下行的类型</span>  </span><br><span class="line">default-storage-engine = InnoDB </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">线程堆栈大小，mysql说它自己用的堆栈大小不超过64K。这个值可 适当设高一点（在RCA的项目中都是共 用同一个数据库连接的），默认192K</span>  </span><br><span class="line">thread_stack = 800K           </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置事务处理的级别,默认 REPEATABLE-READ，一般 用它就即可，以下二行按顺序对应，</span>  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">可读写未提交的数据，创建未提 交的数据副本读写，未提交之前可读不可写，只允许串行序列招行事务。</span>  </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">READ-UNCOMMITTED, READ-COMMITTED, REPEATABLE-READ, SERIALIZABLE</span> </span><br><span class="line">transaction_isolation = REPEATABLE-READ </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">单一内存临时表在内存中的大小，超过此值自动转换到磁盘操作</span>  </span><br><span class="line">tmp_table_size = 64M          </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">启动二进制日志功能，可通过它实现时间点恢复最新的备份</span>  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">log-bin=mysql-bin</span>            </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">二进制日志格式，对就上一条，-建议混合格式</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">binlog_format=mixed</span>          </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">转换查询为缓慢查询</span>           </span><br><span class="line">slow_query_log                </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">对应上一条，如果一个查询超过了下条设定的时间则执行上一条。</span>  </span><br><span class="line">long_query_time = 2           </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">自定义主机ID识别符，用于主从或多 服务器之间识别，为 一个 int 类型</span>  </span><br><span class="line">server-id = 1                 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">一般用来缓存MyISAM表的主键，也用于临时的磁盘表缓存主键，上面多次出现临时磁盘表，所以就算不用MyISAM也最好为其设置一个不小的值，默认32M</span> </span><br><span class="line">key_buffer_size = 64M         </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">全表扫描MyISAM表时的缓存，每个线程拥有下行的大小。</span>  </span><br><span class="line">read_buffer_size = 2M         </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">排序操作时与磁盘之间的缓存，分到每个线程，默认16M</span> </span><br><span class="line">read_rnd_buffer_size = 24M    </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">MyISAM使用特殊树形进行批量插入时的缓存 ，如insert ... values(..)(..)(..)</span> </span><br><span class="line">bulk_insert_buffer_size = 64M </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">MyISAM索引文件的最大限定，</span></span><br><span class="line">myisam_max_sort_file_size = 10G </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">如果一个myisam表有一个以上的索引， MyISAM可以使用一个以上线 程来排序并行它们。较耗硬件资源，如果你的环境不错，可以增加此值。</span>  </span><br><span class="line">myisam_repair_threads = 2     </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">*** INNODB Specific options ***</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">开启下条将会禁用 INNODB</span>      </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">skip-innodb</span>                  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">innodb整体缓冲池大小，不宜过大，设为本地内存的 50%-75% 比较合适,在本机开发过程中可以设得较小一点如 64M,256M</span> </span><br><span class="line">innodb_buffer_pool_size = 256M </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">InnoDB的数据存储在一个或多个数据文件组成的表空间</span>  </span><br><span class="line">innodb_data_file_path = ibdata1:10M:autoextend </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">线程数内允许的InnoDB内核,不宜太高</span> </span><br><span class="line">innodb_thread_concurrency = 16 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">InnoDB的事务日志快存行为,默认为 1，为0可减轻磁盘I/0操作，还有以为2</span> </span><br><span class="line">innodb_flush_log_at_trx_commit = 1 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">InnoDB的用于的缓冲日志数据的大小</span> </span><br><span class="line">innodb_log_buffer_size = 8M   </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">日志文件，可设置为25%-90%的总体缓存大小，默认 256M. 修改此项要先删除datadir\ib_logfileXXX</span> </span><br><span class="line">innodb_log_file_size = 256M   </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">日志组数量，默认为3</span>          </span><br><span class="line">innodb_log_files_in_group = 3 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">InnoDB的日志文件位置。默认是MySQL的datadir</span>  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">innodb_log_group_home_dir</span>    </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">InnoDB最大允许的脏页缓冲池的百分比，默认90</span>  </span><br><span class="line">innodb_max_dirty_pages_pct = 80 </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">事务死锁超时设定</span>             </span><br><span class="line">innodb_lock_wait_timeout = 120 </span><br><span class="line">[client]                      </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置mysql客户端的字符集</span>     </span><br><span class="line">loose-character-set-server=utf8 </span><br><span class="line">[mysqldump]                   </span><br><span class="line">quick                         </span><br><span class="line">max_allowed_packet = 16M      </span><br><span class="line">[mysql]no-auto-rehash                </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Only allow UPDATEs and DELETEs that use keys.</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">safe-updates</span>                 </span><br><span class="line">[WinMySQLAdmin]               </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">指定mysql服务启动启动的文件</span> </span><br><span class="line">Server=D:\\Application\\MySQL\\mysql-8.0.22-winx64\\bin\\mysqld.exe </span><br></pre></td></tr></table></figure></div>
+
+<ol start="7">
+<li><p>初始化mysql</p>
+<p>以管理员身份运行cmd(注意：一定要用管理员模式，不然权限不够),</p>
+</li>
+</ol>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">    ##将目录切换到mysql的bin目录，或者在文件夹的地址栏直接输入cmd回车进入cmd </span><br><span class="line">    &gt; cd D:\Application\MySQL\mysql-8.0.22-winx64\bin</span><br><span class="line">    ## 初始化安装mysql,初始化完成后会输出A temp orary password is generated for root@localhost，后面就是初始密码。</span><br><span class="line">    &gt; mysqld --initialize --console</span><br><span class="line">    2020-11-27T07:07:11.500052Z 0 [System] [MY-013169] [Server] D:\Application\MySQL\mysql-8.0.22-winx64\bin\mysqld.exe (mysqld 8.0.22) initializing of server in progress as process 13308</span><br><span class="line">    2020-11-27T07:07:11.501149Z 0 [Warning] [MY-013242] [Server] --character-set-server: &#x27;utf8&#x27; is currently an alias for the character set UTF8MB3, but will be an alias for UTF8MB4 in a future release. Please consider using UTF8MB4 in order to be unambiguous.</span><br><span class="line">    2020-11-27T07:07:11.523063Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.</span><br><span class="line">    2020-11-27T07:07:12.592780Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.</span><br><span class="line">    2020-11-27T07:07:14.060740Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: T&gt;k%jFWYT3ir</span><br><span class="line">    ## 安装mysql服务             </span><br><span class="line">    &gt; mysqld install             </span><br><span class="line">    Service successfully installed.</span><br><span class="line">    ## 启动mysql服务             </span><br><span class="line">    &gt; net start mysql            </span><br><span class="line">    MySQL 服务正在启动 .         </span><br><span class="line">    MySQL 服务已经启动成功。     </span><br><span class="line">    ## 登录mysql,这时会提示输入密码就是初始密码</span><br><span class="line">    &gt; mysql -u root -p           </span><br><span class="line">    mysql: [Warning] unknown variable &#x27;loose-character-set-server=utf8&#x27;.</span><br><span class="line">    Enter password: ************ </span><br><span class="line">    Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">    Your MySQL connection id is 10 Server version: 8.0.22       </span><br><span class="line">    Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line">    Oracle is a registered trademark of Oracle Corporation and/or its affiliates. Other names may be trademarks of their respective owners. Type &#x27;help;&#x27;or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line">    ## 修改初始密码              </span><br><span class="line">    mysql&gt; use mysql             </span><br><span class="line">    mysql&gt; ALTER USER root@localhost IDENTIFIED BY&#x27;123456&#x27;;                    </span><br><span class="line">    mysql&gt; flush privileges;     </span><br><span class="line">    Query OK, 0 rows affected (0.01 sec)</span><br><span class="line">    ##到这里就安装完成了    </span><br><span class="line">```     </span><br><span class="line"></span><br><span class="line">8. 安装桌面客户端</span><br><span class="line"></span><br><span class="line">    大多数都会用一个navicat来连接数据库，可以从官网上下载，上面也有下载地址，都是中文，安装选择安装路径后一直下一步就行</span><br><span class="line"></span><br><span class="line">9. navicat登录mysql</span><br><span class="line"></span><br><span class="line">    点击连接选择MySql</span><br><span class="line"></span><br><span class="line">    连接名可以随意填，ip或主机地址可以填localhost或者127.0.0.1，端口默认3306，安装时my.ini的port是多少就是多少，用户名root,密码是上面改后的密码123456，没改就是初始密码,完成后点击测试链接，提示连接成功后点击确定</span><br><span class="line"></span><br><span class="line">    ![image-20201127160350001](https://pic.downk.cc/item/5fc0b4d015e77190845f622d.png)</span><br><span class="line">    ![image-20201127160505559](https://pic.downk.cc/item/5fc0b4e615e77190845f6a08.png)</span><br><span class="line">10. dump备份数据库</span><br><span class="line">```shell</span><br><span class="line">mysqldump -uopension -p1q2w3e4r! -E -R --databases opension_test --single-transaction &gt; D:\data\交行\脚本\sql\opension.sql</span><br></pre></td></tr></table></figure></div>
+<ol start="11">
+<li>MySQL命令行创建用户并赋予权限<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">&gt;</span> # 创建用户</span><br><span class="line"><span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;username&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;password&#x27;</span>;</span><br><span class="line"><span class="operator">&gt;</span> # 赋予权限</span><br><span class="line"><span class="operator">&gt;</span> <span class="keyword">grant</span> <span class="keyword">create</span>,<span class="keyword">drop</span>,<span class="keyword">insert</span>,<span class="keyword">delete</span>,<span class="keyword">update</span>,<span class="keyword">select</span> <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;user&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;pasword&#x27;</span>;</span><br><span class="line"><span class="operator">&gt;</span> <span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;user&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;password&#x27;</span>;</span><br><span class="line"><span class="operator">&gt;</span> <span class="keyword">grant</span> <span class="keyword">create</span>,<span class="keyword">drop</span>,<span class="keyword">insert</span>,<span class="keyword">delete</span>,<span class="keyword">update</span>,<span class="keyword">select</span> <span class="keyword">on</span> opension_test <span class="keyword">to</span> <span class="string">&#x27;optms&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;1q2w3e4r!&#x27;</span>;</span><br><span class="line">     <span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> opension_test.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;optms&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;1q2w3e4r!&#x27;</span>;</span><br><span class="line"><span class="operator">&gt;</span> # 刷新</span><br><span class="line"><span class="operator">&gt;</span> FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> MySql安装</li>
+        <li><strong>作者:</strong> zlong.w</li>
+        <li><strong>创建于
+                :</strong> 2023-09-26 14:44:06</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2023-09-26 15:16:54
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://zlonx.cn/2023/09/26/MySql安装/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+            本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 进行许可。
+            
+
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/MySql/">#MySql</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/zlonw.github.io/2023/09/26/MySQL8-0-21-keepalived%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">MySQL8.0.21+keepalived双机热备</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/zlonw.github.io/2023/09/26/PLSQL%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">PLSQL执行计划</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此页目录</div>
+        <div class="page-title">MySql安装</div>
+        
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">zlong.w</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex justify-center items-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/zlonw.github.io/js/libs/Swup.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+        ],
+        containers: ["#swup"],
+    });
+
+    swup.hooks.on("page:view", () => {
+        Global.refresh();
+    });
+
+    // if (document.readyState === "complete") {
+    //
+    // } else {
+    //     document.addEventListener("DOMContentLoaded", () => init());
+    // }
+</script>
+
+
+
+
+
+
+<script src="/zlonw.github.io/js/utils.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/main.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/runtime.js"></script>
+
+    
+<script src="/zlonw.github.io/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/zlonw.github.io/js/libs/Typed.min.js"></script>
+
+  
+<script src="/zlonw.github.io/js/plugins/typed.js"></script>
+
+
+
+
+
+
+    
+<script src="/zlonw.github.io/js/libs/minimasonry.min.js"></script>
+
+    
+<script src="/zlonw.github.io/js/plugins/masonry.js" type="module"></script>
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/zlonw.github.io/js/libs/anime.min.js"></script>
+
+        
+<script src="/zlonw.github.io/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/toc.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>

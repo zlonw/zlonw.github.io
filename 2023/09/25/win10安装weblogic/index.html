@@ -18,12 +18,12 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="描述本次安装版本：weblogic10.3.6 第一次安装，因jdk版本不支持1.8以上报错，后来换成了1.6好使了。安装包下载：示例博客 安装 点击安装包，进入欢迎使用页面，直接点下一步  选择中间件的主目录，创建空文件夹就行，这里创建了bea目录，选好目录点下一步    注册安全更新页面，可以不选，直接下一步    提示连接失败，选择不接收配置中通知    选择安装类型为典型    选择jdk">
+        <meta name="description" content="描述本次安装版本：weblogic10.3.6 第一次安装，因jdk版本不支持1.8以上报错，后来换成了1.6好使了。安装包下载 安装 点击安装包，进入欢迎使用页面，直接点下一步  选择中间件的主目录，创建空文件夹就行，这里创建了bea目录，选好目录点下一步    注册安全更新页面，可以不选，直接下一步    提示连接失败，选择不接收配置中通知    选择安装类型为典型    选择jdk安装目录，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="win10安装weblogic">
 <meta property="og:url" content="https://zlonx.cn/2023/09/25/win10%E5%AE%89%E8%A3%85weblogic/index.html">
 <meta property="og:site_name" content="ZLONG">
-<meta property="og:description" content="描述本次安装版本：weblogic10.3.6 第一次安装，因jdk版本不支持1.8以上报错，后来换成了1.6好使了。安装包下载：示例博客 安装 点击安装包，进入欢迎使用页面，直接点下一步  选择中间件的主目录，创建空文件夹就行，这里创建了bea目录，选好目录点下一步    注册安全更新页面，可以不选，直接下一步    提示连接失败，选择不接收配置中通知    选择安装类型为典型    选择jdk">
+<meta property="og:description" content="描述本次安装版本：weblogic10.3.6 第一次安装，因jdk版本不支持1.8以上报错，后来换成了1.6好使了。安装包下载 安装 点击安装包，进入欢迎使用页面，直接点下一步  选择中间件的主目录，创建空文件夹就行，这里创建了bea目录，选好目录点下一步    注册安全更新页面，可以不选，直接下一步    提示连接失败，选择不接收配置中通知    选择安装类型为典型    选择jdk安装目录，">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic.downk.cc/item/5f25476014195aa5941acb54.png">
 <meta property="og:image" content="https://pic.downk.cc/item/5f25477714195aa5941ad52d.png">
@@ -44,9 +44,10 @@
 <meta property="og:image" content="https://pic.downk.cc/item/5f25481314195aa5941b0ca8.png">
 <meta property="og:image" content="https://pic.downk.cc/item/5f25482714195aa5941b13d7.png">
 <meta property="article:published_time" content="2023-09-25T09:19:53.000Z">
-<meta property="article:modified_time" content="2023-09-25T09:40:35.200Z">
+<meta property="article:modified_time" content="2023-09-26T07:44:32.548Z">
 <meta property="article:author" content="zlong">
-<meta property="article:tag" content="weblogic weblogic安装">
+<meta property="article:tag" content="weblogic">
+<meta property="article:tag" content="weblogic安装">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://pic.downk.cc/item/5f25476014195aa5941acb54.png">
     
@@ -98,7 +99,7 @@
     <script id="hexo-configurations">
     let Global = window.Global || {};
     Global.hexo_config = {"hostname":"zlonx.cn","root":"/zlonw.github.io/","language":"zh-CN","path":"search.xml"};
-    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":true,"family":null,"url":null},"english":{"enable":true,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Zlonx Blog","subtitle":{"text":[],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.4.4","navbar":{"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"album":{"icon":"fa-solid fa-image","path":"/masonry/"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Blog":"https://zlonx.cn","Friends":"/links/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/9/25 13:59:14"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":true,"family":null,"url":null},"english":{"enable":true,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Zlonx Blog","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn/?c=i&c=e"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"zhihu":"https://www.zhihu.com/people/thepri","email":"13120082675@163.com","weixin":"zlong_8386","github":"https://github.com/zlonw/zlonw.github.io"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.4.4","navbar":{"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"album":{"icon":"fa-solid fa-image","path":"/masonry/"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Blog":"https://zlonx.cn","Friends":"/links/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"},"masonry":{"path":"/masonry","icon":"fa-regular fa-image"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/9/25 13:59:14"};
     Global.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
     Global.data_config = {"masonry":true};
   </script>
@@ -393,8 +394,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-09-25 17:40:35</span>
-            <span class="mobile">2023-09-25 17:40:35</span>
+            <span class="desktop">2023-09-26 15:44:32</span>
+            <span class="mobile">2023-09-26 15:44:32</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -422,7 +423,11 @@
             <ul>
                 
                     <li>
-                        <a href="/zlonw.github.io/tags/weblogic-weblogic%E5%AE%89%E8%A3%85/">weblogic weblogic安装</a>&nbsp;
+                        <a href="/zlonw.github.io/tags/weblogic/">weblogic</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/zlonw.github.io/tags/weblogic%E5%AE%89%E8%A3%85/">weblogic安装</a>&nbsp;
                     </li>
                 
             </ul>
@@ -449,7 +454,7 @@
 
         <div class="article-content markdown-body">
             <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>本次安装版本：weblogic10.3.6</p>
-<p>第一次安装，因jdk版本不支持1.8以上报错，后来换成了1.6好使了。安装包下载：<a class="button  regular" target="_blank" rel="noopener" href='https://www.oracle.com/middleware/technologies/fusionmiddleware-downloads.html' title='示例博客'>示例博客</a></p>
+<p>第一次安装，因jdk版本不支持1.8以上报错，后来换成了1.6好使了。<a class="button  regular" target="_blank" rel="noopener" href='https://www.oracle.com/middleware/technologies/fusionmiddleware-downloads.html' title='安装包下载'>安装包下载</a></p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
 <li><p>点击安装包，进入欢迎使用页面，直接点下一步</p>
 </li>
@@ -627,7 +632,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2023-09-25 17:40:35
+                    :</strong> 2023-09-26 15:44:32
             </li>
         
         <li>
@@ -652,7 +657,11 @@
             <ul class="post-tags-box">
                 
                     <li class="tag-item">
-                        <a href="/zlonw.github.io/tags/weblogic-weblogic%E5%AE%89%E8%A3%85/">#weblogic weblogic安装</a>&nbsp;
+                        <a href="/zlonw.github.io/tags/weblogic/">#weblogic</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/weblogic%E5%AE%89%E8%A3%85/">#weblogic安装</a>&nbsp;
                     </li>
                 
             </ul>
@@ -662,6 +671,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/zlonw.github.io/2023/09/26/PLSQL%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">PLSQL执行计划</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
