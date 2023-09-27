@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="zlong.w">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://zlonx.cn/2020/09/20/oracle基础函数/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="1. ASCII返回指定字符对应的十进制数； 1SQL&gt; select ascii(&amp;#x27;A&amp;#x27;) A,ascii(&amp;#x27;a&amp;#x27;) a,ascii(&amp;#x27;0&amp;#x27;)zero,ascii(&amp;#x27; &amp;#x27;) space from dual;--返回： A:65  a:97  zero:48  space:32  2. CHR根据十进制数返回对应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle基础函数">
+<meta property="og:url" content="https://zlonx.cn/2020/09/20/Oracle%E5%9F%BA%E7%A1%80%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="ZLONG">
+<meta property="og:description" content="1. ASCII返回指定字符对应的十进制数； 1SQL&gt; select ascii(&amp;#x27;A&amp;#x27;) A,ascii(&amp;#x27;a&amp;#x27;) a,ascii(&amp;#x27;0&amp;#x27;)zero,ascii(&amp;#x27; &amp;#x27;) space from dual;--返回： A:65  a:97  zero:48  space:32  2. CHR根据十进制数返回对应">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-20T09:55:19.000Z">
+<meta property="article:modified_time" content="2023-09-27T09:58:22.739Z">
+<meta property="article:author" content="zlong">
+<meta property="article:tag" content="oracle">
+<meta property="article:tag" content="sql">
+<meta property="article:tag" content="函数">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/zlonw.github.io/images/zlonx.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/zlonw.github.io/images/zlonx.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/zlonw.github.io/images/zlonx.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Oracle基础函数 -
+        
+        ZLONG
+    </title>
+    
+<link rel="stylesheet" href="/zlonw.github.io/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/zlonw.github.io/css/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+        <link href="" rel="stylesheet">
+    
+    
+        <link href="" rel="stylesheet">
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"zlonx.cn","root":"/zlonw.github.io/","language":"zh-CN","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":true,"family":null,"url":null},"english":{"enable":true,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Zlonx Blog","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn/?c=i&c=e"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/zlonw/zlonw.github.io","email":"13120082675@163.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.4.4","navbar":{"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"album":{"icon":"fa-solid fa-image","path":"/masonry/"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Blog":"https://zlonx.cn","Friends":"/links/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"},"masonry":{"path":"/masonry","icon":"fa-regular fa-image"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/9/25 13:59:14"};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    Global.data_config = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="https://zlonx.cn/">
+                
+                ZLONG
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首页
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        归档
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/masonry/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-image"></i>
+                                        
+                                        相册
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/zlonw.github.io/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a href="https://zlonx.cn">BLOG
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a href="/zlonw.github.io/links/">友情链接
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首页
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                归档
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/masonry/"  >
+                             
+                                
+                                    <i class="fa-solid fa-image"></i>
+                                
+                                相册
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="group-hover:rotate-180 transition-transform fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/zlonw.github.io/about">ME</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="https://zlonx.cn">BLOG</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/zlonw.github.io/links/">友情链接</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">Oracle基础函数</h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/zlonw.github.io/images/tx.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">zlong.w</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2020-09-20 17:55:19</span>
+        <span class="mobile">2020-09-20 17:55:19</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-09-27 17:58:22</span>
+            <span class="mobile">2023-09-27 17:58:22</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/zlonw.github.io/categories/oracle/">oracle</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/zlonw.github.io/categories/oracle/sql/">sql</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/zlonw.github.io/tags/oracle/">oracle</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/zlonw.github.io/tags/sql/">sql</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/zlonw.github.io/tags/%E5%87%BD%E6%95%B0/">函数</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <h4 id="1-ASCII"><a href="#1-ASCII" class="headerlink" title="1. ASCII"></a>1. ASCII</h4><p>返回指定字符对应的十进制数；</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> ascii(<span class="string">&#x27;A&#x27;</span>) A,ascii(<span class="string">&#x27;a&#x27;</span>) a,ascii(<span class="string">&#x27;0&#x27;</span>)zero,ascii(<span class="string">&#x27; &#x27;</span>) space <span class="keyword">from</span> dual;<span class="comment">--返回： A:65  a:97  zero:48  space:32</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="2-CHR"><a href="#2-CHR" class="headerlink" title="2. CHR"></a>2. CHR</h4><p>根据十进制数返回对应的字符</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> chr(<span class="number">54740</span>) zhao,chr(<span class="number">65</span>) chr65 <span class="keyword">from</span> dual;<span class="comment">--返回： zhao:赵   chr65:65</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="3-CONCAT"><a href="#3-CONCAT" class="headerlink" title="3. CONCAT"></a>3. CONCAT</h4><p>连接两个字符串</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> concat(<span class="string">&#x27;010-&#x27;</span>,<span class="string">&#x27;88888888&#x27;</span>)<span class="operator">||</span><span class="string">&#x27;转23&#x27;</span> 电话 <span class="keyword">from</span> dual;<span class="comment">--返回： 010-88888888转23</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="4-INITCAP"><a href="#4-INITCAP" class="headerlink" title="4. INITCAP"></a>4. INITCAP</h4><p>返回字符串并将字符串的第一个字母变为大写</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> initcap(<span class="string">&#x27;smith&#x27;</span>) upp <span class="keyword">from</span> dual;<span class="comment">--返回： upp:Smith</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="5-INSTR-c1-c2-I-J"><a href="#5-INSTR-c1-c2-I-J" class="headerlink" title="5. INSTR(c1,c2.I,J)"></a>5. INSTR(c1,c2.I,J)</h4><p>在一个字符串中搜索指定的字符，返回发现指定字符的位置</p>
+<p>C1: 被搜索的字符串</p>
+<p>C2: 希望搜索的字符串</p>
+<p>I: 搜索的开始位置，默认为1</p>
+<p>J: 出现的位置，默认为1</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> instr(<span class="string">&#x27;oracle traning&#x27;</span>,<span class="string">&#x27;ra&#x27;</span>,<span class="number">1</span>,<span class="number">2</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="6-LENGTH"><a href="#6-LENGTH" class="headerlink" title="6. LENGTH"></a>6. LENGTH</h4><p>返回字符串的长度</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> length(<span class="string">&#x27;百度一下&#x27;</span>)，length(<span class="string">&#x27;9999.99&#x27;</span>) <span class="keyword">from</span> dual;<span class="comment">-- 返回： 4 7</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="7-LOWER"><a href="#7-LOWER" class="headerlink" title="7. LOWER"></a>7. LOWER</h4><p>返回字符串，并将所有的字符小写</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> <span class="built_in">lower</span>(<span class="string">&#x27;AaBbCcDd&#x27;</span>) <span class="keyword">from</span> dual;<span class="comment">--返回： aabbccdd</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="8-UPPER"><a href="#8-UPPER" class="headerlink" title="8. UPPER"></a>8. UPPER</h4><p>返回字符串，并将所有字符大写</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> <span class="built_in">upper</span>(AaBbCcDd) <span class="keyword">from</span> dual;<span class="comment">-- 返回： AABBCCDD</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="9-RPAD和LPAD"><a href="#9-RPAD和LPAD" class="headerlink" title="9. RPAD和LPAD"></a>9. RPAD和LPAD</h4><p>RPAD:在列的右边粘贴字符</p>
+<p>LPAD:在列的左边粘贴字符</p>
+<p>gao表示要粘贴的字符，10表示有10个字符的位置，<em>表示不够用</em>来代替</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> lpad(rpad(<span class="string">&#x27;gao&#x27;</span>,<span class="number">10</span>,<span class="string">&#x27;*&#x27;</span>),<span class="number">17</span>,<span class="string">&#x27;-&#x27;</span>)<span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="10-LTRIM和RTRIM"><a href="#10-LTRIM和RTRIM" class="headerlink" title="10. LTRIM和RTRIM"></a>10. LTRIM和RTRIM</h4><p>LTRIM： 删除左边出现的字符串</p>
+<p>RTRIM： 删除右边出现的字符串</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> ltrim(rtrim(<span class="string">&#x27;  删除右边出,现的字符串,salfibcal &#x27;</span>,<span class="string">&#x27; &#x27;</span>),<span class="string">&#x27;,&#x27;</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="11-SUBSTR-String-start-count"><a href="#11-SUBSTR-String-start-count" class="headerlink" title="11. SUBSTR(String,start,count)"></a>11. SUBSTR(String,start,count)</h4><p>截取字符串，从start开始，取count个,从第三个开始取</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> substr(<span class="string">&#x27;123456789&#x27;</span>,<span class="number">3</span>,<span class="number">5</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="12-REPLACE-‘string’-’s1’-’s2’"><a href="#12-REPLACE-‘string’-’s1’-’s2’" class="headerlink" title="12. REPLACE(‘string’,’s1’,’s2’)"></a>12. REPLACE(‘string’,’s1’,’s2’)</h4><p>替换字符串</p>
+<p>string： 字符串</p>
+<p>s1： 被替换的字符串</p>
+<p>s2： 要替换的字符串</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> replace(<span class="string">&#x27;当时就觉得是客户跟进当时就觉得&#x27;</span>,<span class="string">&#x27;就觉得&#x27;</span>,<span class="string">&#x27;1&#x27;</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="13-SOUDEX"><a href="#13-SOUDEX" class="headerlink" title="13. SOUDEX"></a>13. SOUDEX</h4><p>返回一个与给定字符串读音相同的字符串</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> <span class="keyword">column</span> Name <span class="keyword">from</span> tableName <span class="keyword">where</span> soundex(columnName) <span class="operator">=</span> soundex(<span class="string">&#x27;字符串&#x27;</span>);</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="14-ABS"><a href="#14-ABS" class="headerlink" title="14. ABS"></a>14. ABS</h4><p>返回指定值的绝对值</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> <span class="built_in">abs</span>(<span class="number">-100</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="15-CEIL"><a href="#15-CEIL" class="headerlink" title="15. CEIL"></a>15. CEIL</h4><p>返回大于或等于给出数字的最小整数</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> <span class="built_in">ceil</span>(<span class="number">3.1415927</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="17-FLOOR"><a href="#17-FLOOR" class="headerlink" title="17. FLOOR"></a>17. FLOOR</h4><p>对给定的数字取整数</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> <span class="built_in">floor</span>(<span class="number">2345.67</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="18-ROUND和TRUNC"><a href="#18-ROUND和TRUNC" class="headerlink" title="18. ROUND和TRUNC"></a>18. ROUND和TRUNC</h4><p>按照指定的精度进行取舍</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> round(<span class="number">55.5</span>),round(<span class="number">-55.4</span>),trunc(<span class="number">55.5</span>),trunc(<span class="number">-55.5</span>) <span class="keyword">from</span> dual;<span class="comment">--返回： 56，-55，55，-55</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="19-ADD-MONTHS"><a href="#19-ADD-MONTHS" class="headerlink" title="19. ADD_MONTHS"></a>19. ADD_MONTHS</h4><p>增加或减去月份</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> to_char(add_months(to_date(<span class="string">&#x27;199912&#x27;</span>,<span class="string">&#x27;yyyymm&#x27;</span>),<span class="number">-2</span>),<span class="string">&#x27;yyyymm&#x27;</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> to_char(add_months(to_date(<span class="string">&#x27;199912&#x27;</span>,<span class="string">&#x27;yyyymm&#x27;</span>),<span class="number">2</span>),<span class="string">&#x27;yyyymm&#x27;</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+<h4 id="20-LAST-DAY"><a href="#20-LAST-DAY" class="headerlink" title="20. LAST_DAY"></a>20. LAST_DAY</h4><p>返回日期的最后一天</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> last_day(sysdate) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="21-USER"><a href="#21-USER" class="headerlink" title="21. USER"></a>21. USER</h4><p>返回当前用户的名字</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> <span class="keyword">user</span> <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="22-MONTHS-BETWEEN-date2-date1"><a href="#22-MONTHS-BETWEEN-date2-date1" class="headerlink" title="22. MONTHS_BETWEEN(date2,date1)"></a>22. MONTHS_BETWEEN(date2,date1)</h4><p>给出date2-date1的月份</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> months_between(<span class="string">&#x27;19-12月-1999&#x27;</span>,<span class="string">&#x27;19-3月-1999&#x27;</span>) <span class="keyword">from</span> dual; </span><br><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> months_between(to_date(<span class="string">&#x27;2000.05.20&#x27;</span>,<span class="string">&#x27;yyyy.mm.dd&#x27;</span>),to_date(<span class="string">&#x27;2005.05.20&#x27;</span>,<span class="string">&#x27;yyyy.mm.dd&#x27;</span>)) <span class="keyword">from</span> dual;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<h4 id="23-NEXT-DAY"><a href="#23-NEXT-DAY" class="headerlink" title="23. NEXT_DAY"></a>23. NEXT_DAY</h4><p>给出日期date和星期X后计算下一个星期X的日期</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">select</span> next_day(<span class="string">&#x27;18-5月-2001&#x27;</span>,<span class="string">&#x27;星期五&#x27;</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Oracle基础函数</li>
+        <li><strong>作者:</strong> zlong.w</li>
+        <li><strong>创建于
+                :</strong> 2020-09-20 17:55:19</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2023-09-27 17:58:22
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://zlonx.cn/2020/09/20/Oracle基础函数/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+            本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 进行许可。
+            
+
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/oracle/">#oracle</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/sql/">#sql</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/%E5%87%BD%E6%95%B0/">#函数</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/zlonw.github.io/2020/10/30/Java%E7%BA%BF%E7%A8%8B/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Java线程</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/zlonw.github.io/2020/08/02/git%E5%AD%A6%E4%B9%A0/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">git学习</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此页目录</div>
+        <div class="page-title">Oracle基础函数</div>
+        
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">zlong.w</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex justify-center items-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/zlonw.github.io/js/libs/Swup.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+        ],
+        containers: ["#swup"],
+    });
+
+    swup.hooks.on("page:view", () => {
+        Global.refresh();
+    });
+
+    // if (document.readyState === "complete") {
+    //
+    // } else {
+    //     document.addEventListener("DOMContentLoaded", () => init());
+    // }
+</script>
+
+
+
+
+
+
+<script src="/zlonw.github.io/js/utils.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/main.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/runtime.js"></script>
+
+    
+<script src="/zlonw.github.io/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/zlonw.github.io/js/libs/Typed.min.js"></script>
+
+  
+<script src="/zlonw.github.io/js/plugins/typed.js"></script>
+
+
+
+
+
+
+    
+<script src="/zlonw.github.io/js/libs/minimasonry.min.js"></script>
+
+    
+<script src="/zlonw.github.io/js/plugins/masonry.js" type="module"></script>
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/zlonw.github.io/js/libs/anime.min.js"></script>
+
+        
+<script src="/zlonw.github.io/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/toc.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
