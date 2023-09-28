@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="zlong.w">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://zlonx.cn/2021/03/02/oracle转mysql时基本语法的区别/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="注释 –Oracle注释可以–后直接写注释内容– MySQL注释在–后必须有一个空格，否则注释不生效  日期格式化 1234567--oracle                     select to_char(sysdate,&amp;#x27;yyyy-mm-dd hh24-mi-ss&amp;#x27;) from dual;select to_date(sysdate,&amp;#x27;yyyy-mm-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oracle转MySQL时基本语法的区别">
+<meta property="og:url" content="https://zlonx.cn/2021/03/02/oracle%E8%BD%ACMySQL%E6%97%B6%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="ZLONG">
+<meta property="og:description" content="注释 –Oracle注释可以–后直接写注释内容– MySQL注释在–后必须有一个空格，否则注释不生效  日期格式化 1234567--oracle                     select to_char(sysdate,&amp;#x27;yyyy-mm-dd hh24-mi-ss&amp;#x27;) from dual;select to_date(sysdate,&amp;#x27;yyyy-mm-">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-02T02:26:04.000Z">
+<meta property="article:modified_time" content="2023-09-28T02:28:52.839Z">
+<meta property="article:author" content="zlong">
+<meta property="article:tag" content="Oracle转MySQL">
+<meta property="article:tag" content="sql语法">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/zlonw.github.io/images/zlonx.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/zlonw.github.io/images/zlonx.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/zlonw.github.io/images/zlonx.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            oracle转MySQL时基本语法的区别 -
+        
+        ZLONG
+    </title>
+    
+<link rel="stylesheet" href="/zlonw.github.io/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/zlonw.github.io/css/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+        <link href="" rel="stylesheet">
+    
+    
+        <link href="" rel="stylesheet">
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"zlonx.cn","root":"/zlonw.github.io/","language":"zh-CN","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":true,"family":null,"url":null},"english":{"enable":true,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Zlonx Blog","subtitle":{"text":["Loading..."],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn/?c=i&c=e"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/zlonw/zlonw.github.io","email":"13120082675@163.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.4.4","navbar":{"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"album":{"icon":"fa-solid fa-image","path":"/masonry/"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Blog":"https://zlonx.cn","Friends":"/links/"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"},"masonry":{"path":"/masonry","icon":"fa-regular fa-image"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/9/25 13:59:14"};
+    Global.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    Global.data_config = {"masonry":true};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="https://zlonx.cn/">
+                
+                ZLONG
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首页
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        归档
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/zlonw.github.io/masonry/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-image"></i>
+                                        
+                                        相册
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/zlonw.github.io/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a href="https://zlonx.cn">BLOG
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a href="/zlonw.github.io/links/">友情链接
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首页
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                归档
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/zlonw.github.io/masonry/"  >
+                             
+                                
+                                    <i class="fa-solid fa-image"></i>
+                                
+                                相册
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="group-hover:rotate-180 transition-transform fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/zlonw.github.io/about">ME</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="https://zlonx.cn">BLOG</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/zlonw.github.io/links/">友情链接</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">oracle转MySQL时基本语法的区别</h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/zlonw.github.io/images/tx.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">zlong.w</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2021-03-02 10:26:04</span>
+        <span class="mobile">2021-03-02 10:26:04</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-09-28 10:28:52</span>
+            <span class="mobile">2023-09-28 10:28:52</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/zlonw.github.io/categories/sql%E8%AF%AD%E6%B3%95/">sql语法</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/zlonw.github.io/tags/Oracle%E8%BD%ACMySQL/">Oracle转MySQL</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/zlonw.github.io/tags/sql%E8%AF%AD%E6%B3%95/">sql语法</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <ol>
+<li><p>注释</p>
+<p>–Oracle注释可以–后直接写注释内容<br>– MySQL注释在–后必须有一个空格，否则注释不生效</p>
+</li>
+<li><p>日期格式化</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                     </span></span><br><span class="line"><span class="keyword">select</span> to_char(sysdate,<span class="string">&#x27;yyyy-mm-dd hh24-mi-ss&#x27;</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">select</span> to_date(sysdate,<span class="string">&#x27;yyyy-mm-dd hh24-mi-ss&#x27;</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- MySQL                     </span></span><br><span class="line"><span class="keyword">select</span> date_format(sysdate(),<span class="string">&#x27;%Y-%m-%d %H:%i:%S&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> time_format(sysdate(),<span class="string">&#x27;%H-%i-%S&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> str_to_date(sysdate(),<span class="string">&#x27;%Y-%m-%d %H-%i-%S&#x27;</span>);</span><br></pre></td></tr></table></figure></div></li>
+<li><p>日期函数</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"><span class="keyword">select</span> to_char(add_months(to_date (<span class="string">&#x27;20000101&#x27;</span>,<span class="string">&#x27;yyyymmdd&#x27;</span>),<span class="number">1</span>),<span class="string">&#x27;yyyy-mm-dd&#x27;</span>) <span class="keyword">from</span> dual; </span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="keyword">select</span> date_add(<span class="string">&#x27;2000-01-01&#x27;</span>,<span class="type">interval</span> <span class="number">1</span> <span class="keyword">month</span>); </span><br></pre></td></tr></table></figure></div></li>
+<li><p>字符串截取</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"><span class="keyword">select</span> substr(<span class="string">&#x27;abcdefg&#x27;</span>,<span class="number">1</span>,<span class="number">5</span>) <span class="keyword">from</span> dual; </span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">substring</span>(<span class="string">&#x27;abcdefg&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>); </span><br><span class="line"><span class="keyword">select</span> mid(<span class="string">&#x27;abcdefg&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>);    </span><br><span class="line"><span class="keyword">select</span> <span class="built_in">substring</span>(<span class="string">&#x27;abcdefg&#x27;</span>,<span class="number">2</span>); </span><br><span class="line"><span class="keyword">select</span> <span class="built_in">substring</span>(<span class="string">&#x27;abcdefg&#x27;</span> <span class="keyword">from</span> <span class="number">2</span>); </span><br></pre></td></tr></table></figure></div></li>
+<li><p>别名</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- mysql所有子查询必须有别名，Oracle不需要  </span></span><br><span class="line"><span class="keyword">Every</span> derived <span class="keyword">table</span> must have its own alias </span><br><span class="line">每个派生表都必须有自己的别名  </span><br></pre></td></tr></table></figure></div></li>
+<li><p>字符串拼接</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"><span class="keyword">select</span> <span class="string">&#x27;hello&#x27;</span> <span class="operator">||</span> <span class="string">&#x27; &#x27;</span> <span class="operator">||</span> <span class="string">&#x27;world&#x27;</span> <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- mysql                      </span></span><br><span class="line"><span class="keyword">select</span> concat(<span class="string">&#x27;hello&#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27;world&#x27;</span>);</span><br></pre></td></tr></table></figure></div></li>
+<li><p>数据转换</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"><span class="keyword">select</span> decode(<span class="string">&#x27;MatchingStatus&#x27;</span>,<span class="string">&#x27;&#x27;</span>,<span class="string">&#x27;未匹配&#x27;&#x27;MatchingStatus&#x27;</span>) <span class="keyword">from</span> dual; </span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="keyword">select</span> (<span class="keyword">case</span> <span class="keyword">when</span> <span class="string">&#x27;MatchingStatus&#x27;</span><span class="operator">=</span><span class="string">&#x27;&#x27;</span> <span class="keyword">then</span> <span class="string">&#x27;未匹配&#x27;</span> <span class="keyword">else</span> <span class="string">&#x27;MatchingStatus&#x27;</span> <span class="keyword">end</span>); </span><br></pre></td></tr></table></figure></div></li>
+<li><p>字符串转数字</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                  </span></span><br><span class="line"><span class="keyword">select</span> to_number()        </span><br><span class="line"><span class="comment">-- MySQL                  </span></span><br><span class="line"><span class="comment">-- 1. 直接用加法             </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> orders <span class="keyword">order</span> <span class="keyword">by</span> (mark<span class="operator">+</span><span class="number">0</span>) <span class="keyword">desc</span></span><br><span class="line"><span class="comment">-- 2. 使用函数            </span></span><br><span class="line"><span class="keyword">select</span> (<span class="string">&#x27;&#x27;</span>,<span class="keyword">as</span> type);      </span><br><span class="line"><span class="keyword">select</span> <span class="keyword">convert</span>(<span class="string">&#x27;&#x27;</span>,type);  </span><br><span class="line"><span class="comment">-- type类型：             </span></span><br><span class="line"><span class="comment">-- 浮点数： DECIMAL       </span></span><br><span class="line"><span class="comment">-- 整数：SIGNED           </span></span><br><span class="line"><span class="comment">-- 无符号整数：UNSIGNED   </span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>列转行拼接</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">listagg</span>(columnName,<span class="string">&#x27;,&#x27;</span>) <span class="keyword">within</span> <span class="keyword">group</span>(orderby orderName <span class="keyword">asc</span>) <span class="keyword">from</span> tableName;</span><br><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"> ,该函数已被Oracle弃用，不建议使用</span><br><span class="line"><span class="keyword">select</span> wm_concat(columnName) <span class="keyword">from</span> tableName;</span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="keyword">select</span> group_concat(columnName <span class="keyword">order</span> <span class="keyword">by</span> orderColumnName <span class="keyword">asc</span> separator <span class="string">&#x27;,&#x27;</span>) <span class="keyword">from</span> tableName;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>根据id,查询包含该id的所有值</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle</span></span><br><span class="line"><span class="keyword">select</span> menuid <span class="keyword">from</span> menu a <span class="keyword">start</span> <span class="keyword">with</span> a.menuid<span class="operator">=</span><span class="string">&#x27;&#x27;</span>  <span class="keyword">connect</span> <span class="keyword">by</span> prior upmenuid<span class="operator">=</span>menuid;</span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="keyword">select</span> menuid <span class="keyword">from</span> menu a <span class="keyword">where</span> a.menuid<span class="operator">=</span><span class="string">&#x27;&#x27;</span> <span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> menuid <span class="keyword">from</span> menu b <span class="keyword">where</span> b.upmenuid<span class="operator">=</span><span class="string">&#x27;&#x27;</span>;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>字段为空时设置默认值</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle 如果param1为空则返回param2,不为空则返回param1 </span></span><br><span class="line"><span class="keyword">select</span> nvl(param1,param2) <span class="keyword">from</span> dual; </span><br><span class="line"><span class="comment">-- MySQL 如果expr1不是null则返回expr1,否则返回expr2</span></span><br><span class="line"><span class="keyword">select</span> ifnull(expr1,expr2);</span><br></pre></td></tr></table></figure></div></li>
+<li><p>更新或者插入</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"><span class="keyword">MERGE</span> <span class="keyword">INTO</span> A_MERGE A <span class="keyword">USING</span> (<span class="keyword">select</span> B.AID,B.NAME,B.YEAR <span class="keyword">from</span> B_MERGE B) C <span class="keyword">ON</span> (A.id<span class="operator">=</span>C.AID) </span><br><span class="line"> <span class="keyword">WHEN</span> MATCHED <span class="keyword">THEN</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">SET</span> A.YEAR<span class="operator">=</span>C.YEAR <span class="keyword">WHEN</span> <span class="keyword">NOT</span> MATCHED <span class="keyword">THEN</span></span><br><span class="line"><span class="keyword">INSERT</span>(A.ID,A.NAME,A.YEAR) <span class="keyword">VALUES</span>(C.AID,C.NAME,C.YEAR);</span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="comment">-- MySQL没有Oracle的merge into 语法，但是有一个on duplicate key update语法（不是标准语法 ），可以类似实现merge into的功能</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> A_MERGE(id,name,phone) <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> B_MERGE <span class="keyword">on</span> duplicate key <span class="keyword">update</span> id<span class="operator">=</span><span class="keyword">values</span>(id);</span><br><span class="line"><span class="comment">-- 注意：id字段是主键或者unique索引，不然只会插入所有行  </span></span><br><span class="line"><span class="comment">-- 更新部分字段时，插入的记录中其他字段就为空了 </span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>MySQL与Oracle insert、update别名的区别</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line">    <span class="comment">--insert:                     </span></span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tableName <span class="keyword">as</span> alias(alias.clumnName1,alias.clumnName)<span class="keyword">values</span>(<span class="string">&#x27;&#x27;</span>,<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    <span class="comment">--update</span></span><br><span class="line">    <span class="keyword">update</span> tableName <span class="keyword">as</span> alias <span class="keyword">set</span> alias.clumnName<span class="operator">=</span><span class="string">&#x27;&#x27;</span> <span class="keyword">where</span> alias.clumnName<span class="operator">=</span><span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- MySQL中insert中不允许使用别名 </span></span><br><span class="line">    <span class="comment">-- update                     </span></span><br><span class="line">    <span class="keyword">update</span> tableName <span class="keyword">as</span> alias <span class="keyword">set</span> alias.clumnName<span class="operator">=</span><span class="string">&#x27;&#x27;</span> <span class="keyword">where</span> alias.clumnName<span class="operator">=</span><span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="comment">-- delete                     </span></span><br><span class="line">    <span class="keyword">delete</span> alias <span class="keyword">from</span> tableName <span class="keyword">where</span> alias.clumnName<span class="operator">=</span><span class="string">&#x27;&#x27;</span>; </span><br></pre></td></tr></table></figure></div></li>
+<li><p>条件语句</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle</span></span><br><span class="line"><span class="keyword">select</span> decode(条件,值<span class="number">1</span>,返回值,值<span class="number">2</span>,返回值,...) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- MySQL没有类似的函数，只能使用case when</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">case</span> <span class="keyword">when</span> 条件<span class="operator">=</span>值<span class="number">1</span> <span class="keyword">then</span> 返回值 <span class="keyword">when</span> 条件<span class="operator">=</span>值<span class="number">2</span> <span class="keyword">then</span> 返回值<span class="number">2</span> <span class="keyword">else</span> 返回值<span class="number">3</span> <span class="keyword">end</span>;</span><br><span class="line">```  </span><br><span class="line"><span class="number">15.</span> if判断</span><br><span class="line">```<span class="keyword">sql</span></span><br><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line">if 表达式 <span class="keyword">then</span>                </span><br><span class="line">...                           </span><br><span class="line">elsif 表达式 <span class="keyword">then</span>             </span><br><span class="line">...                           </span><br><span class="line"><span class="keyword">else</span>                          </span><br><span class="line">...                           </span><br><span class="line"><span class="keyword">end</span> if;                       </span><br><span class="line">                                   </span><br><span class="line"><span class="comment">-- MySQL既可以作为表达式用，也可在存储过程中作为流程控制语句使用, </span></span><br><span class="line"><span class="comment">-- 存储过程                   </span></span><br><span class="line">if 表达式 <span class="keyword">then</span>                </span><br><span class="line">...                           </span><br><span class="line">elseif 表达式 <span class="keyword">then</span>            </span><br><span class="line">...                           </span><br><span class="line"><span class="keyword">else</span>                          </span><br><span class="line">...                           </span><br><span class="line"><span class="keyword">end</span> if                        </span><br><span class="line"><span class="comment">-- 表达式，如果表达式1为true，返回值1，否则返回值2</span></span><br><span class="line"><span class="keyword">select</span> if(表达式<span class="number">1</span>，值<span class="number">1</span>，值<span class="number">2</span>)</span><br></pre></td></tr></table></figure></div></li>
+<li><p>存储过程调用</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- oracle中存储过程调用参数中间可以有换行符</span></span><br><span class="line"><span class="keyword">call</span> <span class="keyword">procedure</span>(param1,param2,param3);</span><br><span class="line"><span class="comment">-- MySQL存储过程调用参数中不能有空格和换行符  </span></span><br><span class="line">&#123;<span class="keyword">call</span> <span class="keyword">procedure</span>(param1,param2,param3)&#125;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>取第一行</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tableName <span class="keyword">as</span> tab <span class="keyword">where</span> ROWNUM<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tableName limit <span class="number">1</span>;</span><br><span class="line"><span class="keyword">select</span> t.<span class="operator">*</span>,<span class="variable">@rownum</span>:<span class="operator">=</span><span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">as</span> rownum <span class="keyword">from</span> tableName t,(<span class="keyword">select</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) r <span class="keyword">where</span> <span class="variable">@rownum</span><span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>分组排序等</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line">     <span class="comment">--排序并添加序号</span></span><br><span class="line"><span class="keyword">select</span> column1,column2,<span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> column1) rs <span class="keyword">from</span> tableName;</span><br><span class="line"><span class="comment">--分组并排序</span></span><br><span class="line"><span class="keyword">select</span> column1,column2,row_number <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> column2 <span class="keyword">order</span> <span class="keyword">by</span> column1);</span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="comment">-- 排序并添加序号             </span></span><br><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span>,<span class="variable">@rownum</span>:<span class="operator">=</span><span class="variable">@rownum</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">as</span> rownum <span class="keyword">from</span></span><br><span class="line">    (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tableName <span class="keyword">order</span> <span class="keyword">by</span> clumnName <span class="keyword">desc</span>) a,(<span class="keyword">select</span> <span class="variable">@rownum</span>:<span class="operator">=</span><span class="number">0</span>) b</span><br><span class="line"><span class="comment">-- 分组并排序                 </span></span><br><span class="line"><span class="keyword">SELECT</span> tion.分组字段名称,<span class="variable">@last</span> :<span class="operator">=</span> IF(<span class="variable">@first</span> <span class="operator">=</span>tion.分组字段名称, <span class="variable">@last</span> <span class="operator">+</span> <span class="number">1</span>, <span class="number">1</span>),<span class="variable">@first</span> :<span class="operator">=</span> tion.分组字段名称</span><br><span class="line"><span class="keyword">FROM</span> 目标表名称 tion,</span><br><span class="line">     (<span class="keyword">SELECT</span></span><br><span class="line">          <span class="variable">@last</span> :<span class="operator">=</span> <span class="number">0</span>,</span><br><span class="line">          <span class="variable">@first</span> :<span class="operator">=</span> <span class="keyword">NULL</span>) c</span><br><span class="line">    <span class="keyword">ORDER</span> <span class="keyword">BY</span> 分组字段名称, 排序字段名称</span><br></pre></td></tr></table></figure></div></li>
+<li><p>视图</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--Oracle</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> replace <span class="keyword">view</span></span><br><span class="line">    viewName <span class="keyword">as</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> (<span class="keyword">select</span> column1,column2 <span class="keyword">from</span> tableName);</span><br><span class="line"><span class="comment">-- mysql</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">view</span> if <span class="keyword">exists</span> viewName;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> replace <span class="keyword">view</span> viewName <span class="keyword">as</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tableName;</span><br><span class="line"><span class="comment">--可以做个中间视图</span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>一个表数据更新另一张表的数据</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle</span></span><br><span class="line"><span class="keyword">update</span> tableName1 tn <span class="keyword">set</span> (tn.column1,tn.column2,tn.column3)</span><br><span class="line">    <span class="operator">=</span></span><br><span class="line">(<span class="keyword">select</span> tm.column1,tm.column2,tm.column3 <span class="keyword">from</span> tableName2 tm <span class="keyword">where</span> tn.columnId<span class="operator">=</span>tm.columnId <span class="keyword">and</span> tm.column4<span class="operator">=</span><span class="string">&#x27;&#x27;</span>) </span><br><span class="line">    <span class="keyword">where</span> tn.column4<span class="operator">=</span><span class="string">&#x27;&#x27;</span>;</span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="keyword">update</span> tableName1 tn <span class="keyword">inner</span> <span class="keyword">join</span> (<span class="keyword">select</span> tm.column1,tm.column2,tm.column3,tm.columnId,tm.column4 <span class="keyword">from</span> tableName2) a </span><br><span class="line">    <span class="keyword">on</span> tn.columnId<span class="operator">=</span>a.columnId <span class="keyword">and</span> a.column4<span class="operator">=</span><span class="string">&#x27;&#x27;</span> </span><br><span class="line"><span class="keyword">set</span> tn.column1<span class="operator">=</span>a.column1,</span><br><span class="line">    tn.column2<span class="operator">=</span>a.column2,</span><br><span class="line">    tn.column3<span class="operator">=</span>a.column3 </span><br><span class="line"><span class="keyword">where</span> tn.column4<span class="operator">=</span><span class="string">&#x27;&#x27;</span>; </span><br></pre></td></tr></table></figure></div></li>
+<li><p>varchar、varchar2</p>
+<ul>
+<li>varchar计算的是字符数</li>
+<li>varchar2计算的是字节数</li>
+</ul>
+<p>mysql中一个汉字占三个字节，Oracle中一个汉字占两个字节</p>
+</li>
+<li><p>null和’’</p>
+<ul>
+<li>Oracle中null和’’是一样的</li>
+<li>MySQL中null是null，’’是’’，不一样</li>
+</ul>
+</li>
+<li><p>date时间类型问题</p>
+<p>Oracle中date类型可以包含时分秒，MySQL中date没有时分秒，有时分秒需要使用datetime</p>
+</li>
+<li><p>函数创建</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"><span class="keyword">create</span> [<span class="keyword">or</span> replace] <span class="keyword">function</span> funcName([param]) <span class="keyword">return</span> resultType <span class="keyword">as</span><span class="operator">|</span><span class="keyword">is</span> </span><br><span class="line"><span class="keyword">begin</span>                         </span><br><span class="line"><span class="keyword">return</span> <span class="keyword">result</span>;                </span><br><span class="line"><span class="keyword">end</span>;                          </span><br><span class="line"><span class="comment">-- MySQL                      </span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> funcName(param) <span class="keyword">returns</span> dataType </span><br><span class="line"><span class="keyword">begin</span>                         </span><br><span class="line"><span class="keyword">return</span> <span class="keyword">result</span>;                </span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>函数中变量赋值</p>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                     </span></span><br><span class="line">a:<span class="operator">=</span><span class="string">&#x27;&#x27;</span>;                       </span><br><span class="line"><span class="comment">-- MySQL                     </span></span><br><span class="line"><span class="keyword">set</span> a<span class="operator">=</span><span class="string">&#x27;&#x27;</span>;                    </span><br><span class="line"><span class="comment">--共有的赋值方式             </span></span><br><span class="line"><span class="keyword">select</span> sysdate <span class="keyword">into</span> times <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>声明</p>
+<ul>
+<li>MySQL声明在函数体中，也就是在begin之后，用declare关键字</li>
+</ul>
+</li>
+</ol>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> stemp <span class="type">varchar</span>(<span class="number">4000</span>);</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>-   Oracle声明写在as或者is之后，begin之前，不用declare
+</code></pre>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stemp <span class="type">varchar</span>(<span class="number">4000</span>);</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>-   在Oracle中as和is是没有区别的
+</code></pre>
+<ol start="27">
+<li>游标 <div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"><span class="comment">--声明游标 select后不能接into </span></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">cursor</span> 游标名 <span class="keyword">is</span> <span class="keyword">select</span> param1,param2 <span class="keyword">from</span> tableName;</span><br><span class="line"><span class="comment">--打开游标                    </span></span><br><span class="line"><span class="keyword">open</span> 游标名                   </span><br><span class="line"><span class="comment">--提取数据                    </span></span><br><span class="line"><span class="keyword">fetch</span> 游标名 <span class="keyword">into</span> 变量名<span class="number">1</span>，变量名<span class="number">2</span>； </span><br><span class="line"><span class="comment">--关闭游标                    </span></span><br><span class="line"><span class="keyword">close</span> 游标名                  </span><br><span class="line">                              </span><br><span class="line"><span class="comment">--MySQL                       </span></span><br><span class="line"><span class="comment">-- 定义                       </span></span><br><span class="line"><span class="keyword">declare</span> 游标名称 <span class="keyword">cursor</span> <span class="keyword">for</span> 查询语句 </span><br><span class="line"><span class="comment">-- 打开游标                   </span></span><br><span class="line"><span class="keyword">open</span> 游标名称                 </span><br><span class="line"><span class="comment">-- 取值                       </span></span><br><span class="line"><span class="keyword">fetch</span> 游标名称 info var_name[,var_name]...  </span><br><span class="line"><span class="comment">-- 关闭游标                   </span></span><br><span class="line"><span class="keyword">close</span> 游标名称                </span><br><span class="line"><span class="comment">-- 释放游标                   </span></span><br><span class="line"><span class="keyword">deallocate</span> 游标名称</span><br></pre></td></tr></table></figure></div></li>
+<li>循环<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--oracle                      </span></span><br><span class="line"><span class="comment">--loop                        </span></span><br><span class="line"><span class="keyword">declare</span> i number</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    i:<span class="operator">=</span><span class="number">0</span>;</span><br><span class="line">loop</span><br><span class="line">exit <span class="keyword">when</span>(i<span class="operator">&gt;</span><span class="number">5</span>);</span><br><span class="line">dbms_output.put_line(i);</span><br><span class="line">i:<span class="operator">=</span>i<span class="operator">+</span><span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span> loop;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="comment">--while</span></span><br><span class="line">    <span class="keyword">declare</span> i number</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    i:<span class="operator">=</span><span class="number">0</span>;</span><br><span class="line">while i<span class="operator">&lt;</span><span class="number">5</span> loop</span><br><span class="line">            i:<span class="operator">=</span>i<span class="operator">+</span><span class="number">1</span>;</span><br><span class="line">dbms_output.put_line(i);</span><br><span class="line"><span class="keyword">end</span> loop;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"><span class="comment">--for</span></span><br><span class="line">    <span class="keyword">declare</span> <span class="keyword">cursor</span> userRows <span class="keyword">is</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">for</span> userRow <span class="keyword">in</span> userRows</span><br><span class="line">     loop</span><br><span class="line">         dbms_output.put_line(userRow.ENAME);</span><br><span class="line"><span class="keyword">end</span> loop;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Sql"><figure class="iseeu highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- mysql                      </span></span><br><span class="line"><span class="comment">-- while                      </span></span><br><span class="line"><span class="keyword">begin</span> <span class="keyword">declare</span> i <span class="type">int</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">while i<span class="operator">&lt;=</span><span class="number">10</span></span><br><span class="line">do</span><br><span class="line"><span class="keyword">set</span> i <span class="operator">=</span> i <span class="operator">+</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span> while;</span><br><span class="line"><span class="keyword">end</span>;                          </span><br><span class="line">     <span class="comment">-- loop                       </span></span><br><span class="line"><span class="keyword">begin</span> <span class="keyword">declare</span> i <span class="type">int</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">loop_name:loop              </span><br><span class="line">    if i<span class="operator">&gt;=</span><span class="number">10</span> <span class="keyword">then</span> leave loop_name;</span><br><span class="line"><span class="keyword">set</span> i <span class="operator">=</span> i <span class="operator">+</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span> loop                   </span><br><span class="line">     <span class="keyword">end</span>;                          </span><br><span class="line"><span class="comment">-- repeat                     </span></span><br><span class="line"><span class="keyword">begin</span> <span class="keyword">declare</span> i <span class="type">int</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">repeat</span><br><span class="line"><span class="keyword">set</span> i <span class="operator">=</span> i <span class="operator">+</span> <span class="number">1</span>;</span><br><span class="line">until i<span class="operator">&gt;=</span><span class="number">10</span> <span class="keyword">end</span> repeat;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure></div></li>
+</ol>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> oracle转MySQL时基本语法的区别</li>
+        <li><strong>作者:</strong> zlong.w</li>
+        <li><strong>创建于
+                :</strong> 2021-03-02 10:26:04</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2023-09-28 10:28:52
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://zlonx.cn/2021/03/02/oracle转MySQL时基本语法的区别/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+            本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 进行许可。
+            
+
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/Oracle%E8%BD%ACMySQL/">#Oracle转MySQL</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/zlonw.github.io/tags/sql%E8%AF%AD%E6%B3%95/">#sql语法</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/zlonw.github.io/2023/09/25/win10%E5%AE%89%E8%A3%85weblogic/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">win10安装weblogic</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/zlonw.github.io/2021/01/10/%E7%AE%80%E8%A3%85gitlab/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">简装gitlab</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此页目录</div>
+        <div class="page-title">oracle转MySQL时基本语法的区别</div>
+        
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">zlong.w</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex justify-center items-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/zlonw.github.io/js/libs/Swup.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/zlonw.github.io/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+        ],
+        containers: ["#swup"],
+    });
+
+    swup.hooks.on("page:view", () => {
+        Global.refresh();
+    });
+
+    // if (document.readyState === "complete") {
+    //
+    // } else {
+    //     document.addEventListener("DOMContentLoaded", () => init());
+    // }
+</script>
+
+
+
+
+
+
+<script src="/zlonw.github.io/js/utils.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/main.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/zlonw.github.io/js/tools/runtime.js"></script>
+
+    
+<script src="/zlonw.github.io/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/zlonw.github.io/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/zlonw.github.io/js/libs/Typed.min.js"></script>
+
+  
+<script src="/zlonw.github.io/js/plugins/typed.js"></script>
+
+
+
+
+
+
+    
+<script src="/zlonw.github.io/js/libs/minimasonry.min.js"></script>
+
+    
+<script src="/zlonw.github.io/js/plugins/masonry.js" type="module"></script>
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/zlonw.github.io/js/libs/anime.min.js"></script>
+
+        
+<script src="/zlonw.github.io/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/layouts/toc.js" type="module"></script>
+
+<script src="/zlonw.github.io/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
